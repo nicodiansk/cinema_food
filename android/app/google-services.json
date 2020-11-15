@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "392263462607",
+    "firebase_url": "https://cinema-food.firebaseio.com",
+    "project_id": "cinema-food",
+    "storage_bucket": "cinema-food.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392263462607:android:a0d42bad56e174bb5f11ba",
+        "android_client_info": {
+          "package_name": "com.nico.cinema_food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392263462607-4qdbj0l28o38u44vs96ehvv5raqkrqli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLzgMuDVN-L2VfJ-kbM04snuItGpQERmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392263462607-4qdbj0l28o38u44vs96ehvv5raqkrqli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

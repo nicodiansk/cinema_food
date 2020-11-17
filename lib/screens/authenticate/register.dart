@@ -28,10 +28,10 @@ class _RegisterState extends State<Register> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                    padding: EdgeInsets.fromLTRB(20, 110, 0, 0),
                     child: RichText(
                         text: TextSpan(
-                            text: 'Cinema\nFood',
+                            text: 'Registrati',
                             style: TextStyle(
                                 fontSize: 70,
                                 color: Colors.black,

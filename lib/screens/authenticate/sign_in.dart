@@ -29,7 +29,7 @@ class _SignInState extends State<SignIn> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                    padding: EdgeInsets.fromLTRB(20, 110, 0, 0),
                     child: RichText(
                         text: TextSpan(
                             text: 'Cinema\nFood',

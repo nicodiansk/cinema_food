@@ -1,6 +1,6 @@
 # cinema_food
 
-A new Flutter project.
+Cinema Food app for Android.
 
 ## Getting Started
 

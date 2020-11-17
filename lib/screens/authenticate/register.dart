@@ -12,6 +12,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  String nome = '';
   String email = '';
   String password = '';
   String error = '';
@@ -31,7 +32,7 @@ class _RegisterState extends State<Register> {
                     padding: EdgeInsets.fromLTRB(20, 110, 0, 0),
                     child: RichText(
                         text: TextSpan(
-                            text: 'Registrati',
+                            text: 'Signup',
                             style: TextStyle(
                                 fontSize: 70,
                                 color: Colors.black,
@@ -55,6 +56,21 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'NOME COMPLETO',
+                            prefixIcon: Icon(Icons.person)),
+                        validator: (value) =>
+                            value.isEmpty ? 'Inserire un nome' : null,
+                        onChanged: (value) {
+                          setState(() {
+                            nome = value;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       TextFormField(
                         decoration: textInputDecoration.copyWith(
                             hintText: 'EMAIL', prefixIcon: Icon(Icons.email)),
@@ -98,7 +114,7 @@ class _RegisterState extends State<Register> {
                                         email, password);
                                 if (result == null) {
                                   setState(() {
-                                    error = 'Inserire una email valida';
+                                    error = 'Inserire una email valida!';
                                   });
                                 }
                               }
@@ -126,7 +142,7 @@ class _RegisterState extends State<Register> {
                               widget.toggleView();
                             },
                             icon: Icon(
-                              Icons.person_add,
+                              Icons.login,
                               color: Colors.white,
                             ),
                             splashColor: Colors.purple[300],
@@ -144,9 +160,11 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: 12,
                       ),
-                      Text(
-                        error,
-                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      Center(
+                        child: Text(
+                          error,
+                          style: TextStyle(color: Colors.red, fontSize: 14),
+                        ),
                       )
                     ],
                   ),

@@ -1,34 +1,178 @@
 import 'package:cinema_food/services/auth.dart';
+import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
+  final Function toggleView;
+  Register({this.toggleView});
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        backgroundColor: Colors.white,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'Cinema\nFood',
+                            style: TextStyle(
+                                fontSize: 70,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            children: <TextSpan>[
+                          TextSpan(
+                              text: '.',
+                              style: TextStyle(
+                                  color: Colors.purple,
+                                  fontSize: 80,
+                                  fontWeight: FontWeight.bold))
+                        ])),
+                  )
+                ],
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 35, 20, 0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'EMAIL', prefixIcon: Icon(Icons.email)),
+                        validator: (value) =>
+                            value.isEmpty ? 'Inserire una email valida' : null,
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'PASSWORD', prefixIcon: Icon(Icons.lock)),
+                        validator: (value) => value.length < 6
+                            ? 'Inserire una password lunga almeno 6 caratteri'
+                            : null,
+                        obscureText: true,
+                        onChanged: (value) {
+                          setState(() {
+                            password = value;
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: ButtonTheme(
+                          minWidth: 180,
+                          child: RaisedButton.icon(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                dynamic result =
+                                    await _auth.registerWithEmailAndPassword(
+                                        email, password);
+                                if (result == null) {
+                                  setState(() {
+                                    error = 'Inserire una email valida';
+                                  });
+                                }
+                              }
+                            },
+                            icon: Icon(
+                              Icons.person_add,
+                              color: Colors.white,
+                            ),
+                            splashColor: Colors.lightBlueAccent,
+                            color: Colors.purple[300],
+                            label: Text(
+                              'Registrati',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: ButtonTheme(
+                          minWidth: 180,
+                          child: RaisedButton.icon(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () {
+                              widget.toggleView();
+                            },
+                            icon: Icon(
+                              Icons.person_add,
+                              color: Colors.white,
+                            ),
+                            splashColor: Colors.purple[300],
+                            color: Colors.lightBlueAccent,
+                            label: Text(
+                              'Ho già un account!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      )
+                    ],
+                  ),
+                ))
+          ],
+        ));
+  }
+}
+
+/*return Scaffold(
       backgroundColor: Colors.blue[100],
-      appBar: AppBar(
-        backgroundColor: Colors.indigo[900],
-        elevation: 0,
-        title: Text('Registrati a Cinema Food!'),
-      ),
+      
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
           child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 SizedBox(
                   height: 20,
                 ),
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Email', prefixIcon: Icon(Icons.email)),
+                  validator: (value) =>
+                      value.isEmpty ? 'Inserire una email valida' : null,
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -39,6 +183,11 @@ class _RegisterState extends State<Register> {
                   height: 20,
                 ),
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Password', prefixIcon: Icon(Icons.lock)),
+                  validator: (value) => value.length < 6
+                      ? 'Inserire una password lunga almeno 6 caratteri'
+                      : null,
                   obscureText: true,
                   onChanged: (value) {
                     setState(() {
@@ -51,20 +200,30 @@ class _RegisterState extends State<Register> {
                 ),
                 RaisedButton(
                   onPressed: () async {
-                    print(email);
-                    print(password);
-                    dynamic result =
-                        _auth.signInWithEmailAndPassword(email, password);
+                    if (_formKey.currentState.validate()) {
+                      dynamic result = await _auth.registerWithEmailAndPassword(
+                          email, password);
+                      if (result == null) {
+                        setState(() {
+                          error = 'Inserire una email valida';
+                        });
+                      }
+                    }
                   },
                   color: Colors.orange,
                   child: Text(
                     'Registrati',
                     style: TextStyle(color: Colors.white),
                   ),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.red, fontSize: 14),
                 )
               ],
             ),
           )),
-    );
-  }
-}
+    );*/

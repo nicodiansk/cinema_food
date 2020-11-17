@@ -11,7 +11,7 @@ class Wrapper extends StatelessWidget {
     //every time a user sign in/out a value is passed into the stream of User from main.dart to wrapper.dart wqith the provider
     final user = Provider.of<User>(
         context); //what type of data we receive every time there is a new value
-    print('Stato attuale utenti: ${user}');
+    print('Stato attuale utenti: $user');
     if (user == null) {
       return Authenticate();
     } else {

@@ -1,4 +1,5 @@
 import 'package:cinema_food/modules/user.dart';
+import 'package:cinema_food/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,11 +44,15 @@ class AuthService {
 
   //register with email and password
 
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String email, String password, String nome) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+      //create a new document in the database
+      await DatabaseService(uid: user.uid).updateUserData(nome, email);
+
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

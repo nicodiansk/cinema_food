@@ -1,4 +1,4 @@
-import 'package:cinema_food/modules/settings.dart';
+import 'package:cinema_food/screens/cinema/settings.dart';
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/screens/authenticate/authenticate.dart';
 import 'package:cinema_food/screens/cinema/cart.dart';

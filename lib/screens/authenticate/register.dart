@@ -18,6 +18,7 @@ class _RegisterState extends State<Register> {
   String nome = '';
   String email = '';
   String password = '';
+  String _password_confirm = '';
   String error = '';
 
   @override
@@ -109,6 +110,23 @@ class _RegisterState extends State<Register> {
                           SizedBox(
                             height: 20,
                           ),
+                          TextFormField(
+                            decoration: textInputDecoration.copyWith(
+                                hintText: 'RIPETI PASSWORD',
+                                prefixIcon: Icon(Icons.lock)),
+                            validator: (value) => password != value
+                                ? 'La password non corrisponde!'
+                                : null,
+                            obscureText: true,
+                            onChanged: (value) {
+                              setState(() {
+                                _password_confirm = value;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Center(
                             child: ButtonTheme(
                               minWidth: 180,
@@ -116,18 +134,25 @@ class _RegisterState extends State<Register> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 onPressed: () async {
+                                  dynamic result;
                                   if (_formKey.currentState.validate()) {
                                     setState(() {
                                       loading = true;
                                     });
-                                    dynamic result = await _auth
-                                        .registerWithEmailAndPassword(
-                                            email, password, nome);
-                                    if (result == null) {
+                                    if (password == _password_confirm) {
+                                      result = await _auth
+                                          .registerWithEmailAndPassword(
+                                              email, password, nome);
+                                    }
+                                    if (result == null &&
+                                        password == _password_confirm) {
                                       setState(() {
                                         loading = false;
                                         error = 'Inserire una email valida!';
                                       });
+                                    } else {
+                                      loading = false;
+                                      error = 'La password non corrisponde!';
                                     }
                                   }
                                 },

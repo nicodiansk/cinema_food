@@ -19,37 +19,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Cinema Food - Home'),
-        backgroundColor: Colors.indigo[900],
-        elevation: 0,
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              label: Text(
-                'Logout',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              )),
-          FlatButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-              label: Text(
-                'settings',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ))
-        ],
-      ),
     );
   }
 }

@@ -33,6 +33,7 @@ dependencies:
   lottie: ^0.7.0+1
   page_transition: ^1.1.7+2
   provider: ^4.3.2+2
+  rflutter_alert: ^1.1.0
   video_player: ^1.0.1
 
 dev_dependencies:

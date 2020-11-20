@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UserSettings extends StatelessWidget {
+class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,7 +8,7 @@ class UserSettings extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Text('USER SETTINGS'),
+            child: Text('MENU PAGE'),
           )
         ],
       ),

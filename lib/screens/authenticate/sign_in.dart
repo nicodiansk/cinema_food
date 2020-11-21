@@ -1,6 +1,7 @@
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
+import 'package:cinema_food/shared/screen_title.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -34,21 +35,7 @@ class _SignInState extends State<SignIn> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.fromLTRB(20, 110, 0, 0),
-                        child: RichText(
-                            text: TextSpan(
-                                text: 'Cinema\nFood',
-                                style: TextStyle(
-                                    fontSize: 70,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                                children: <TextSpan>[
-                              TextSpan(
-                                  text: '.',
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontSize: 80,
-                                      fontWeight: FontWeight.bold))
-                            ])),
+                        child: ScreenTitle(title: 'Cinema\nFood'),
                       )
                     ],
                   ),

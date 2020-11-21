@@ -1,6 +1,7 @@
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
+import 'package:cinema_food/shared/screen_title.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -35,22 +36,10 @@ class _RegisterState extends State<Register> {
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.fromLTRB(20, 110, 0, 0),
-                        child: RichText(
-                            text: TextSpan(
-                                text: 'Signup',
-                                style: TextStyle(
-                                    fontSize: 70,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                                children: <TextSpan>[
-                              TextSpan(
-                                  text: '.',
-                                  style: TextStyle(
-                                      color: Colors.purple,
-                                      fontSize: 80,
-                                      fontWeight: FontWeight.bold))
-                            ])),
+                        padding: EdgeInsets.fromLTRB(20, 50, 0, 0),
+                        child: ScreenTitle(
+                          title: 'Sign\nUp',
+                        ),
                       )
                     ],
                   ),

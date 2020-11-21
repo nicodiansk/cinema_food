@@ -1,11 +1,5 @@
-import 'package:cinema_food/screens/cinema/settings.dart';
-import 'package:cinema_food/screens/cinema/film.dart';
-import 'package:cinema_food/screens/cinema/menu.dart';
 import 'package:cinema_food/services/auth.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:cinema_food/services/database.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,6 +13,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      body: Center(child: Text('HOME')),
     );
   }
 }

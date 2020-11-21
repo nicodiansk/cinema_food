@@ -33,19 +33,15 @@ class _RegisterState extends State<Register> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 50, 0, 0),
-                        child: ScreenTitle(
-                          title: 'Sign\nUp',
-                        ),
-                      )
-                    ],
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(20, 50, 0, 0),
+                    child: ScreenTitle(
+                      title: 'Sign\nUp',
+                    ),
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.fromLTRB(20, 35, 20, 0),
+                    padding: EdgeInsets.fromLTRB(20, 22, 20, 0),
                     child: Form(
                       key: _formKey,
                       child: Column(

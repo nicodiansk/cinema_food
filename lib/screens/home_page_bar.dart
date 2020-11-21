@@ -29,46 +29,11 @@ class _HomePageBarState extends State<HomePageBar> {
           TabItem(icon: Icons.movie, title: 'Film'),
           TabItem(icon: Icons.person, title: 'User'),
           TabItem(icon: Icons.shopping_cart, title: 'Carrello'),
-          TabItem(icon: Icons.logout, title: 'Logout'),
         ],
         initialActiveIndex: selectedPage,
         onTap: (index) {
           setState(() {
             selectedPage = index;
-            if (selectedPage == 5) {
-              Alert(
-                context: context,
-                type: AlertType.warning,
-                title: "LOGOUT",
-                desc:
-                    "Stai per disconnetterti dalla sessione attuale. Continuare?",
-                buttons: [
-                  DialogButton(
-                    child: Text(
-                      "Indietro",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    color: Colors.purple,
-                  ),
-                  DialogButton(
-                    child: Text(
-                      "Disconnettimi",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                    onPressed: () {
-                      _auth.signOut();
-                      Navigator.pop(context);
-                    },
-                    gradient: LinearGradient(colors: [
-                      Colors.purple,
-                      Colors.lightBlueAccent,
-                    ]),
-                  )
-                ],
-              ).show();
-              //_auth.signOut();
-            }
           });
         },
         activeColor: Colors.lightBlueAccent,

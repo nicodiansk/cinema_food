@@ -1,4 +1,5 @@
 import 'package:cinema_food/modules/user.dart';
+import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/services/database.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
@@ -6,9 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-class UserSettings extends StatelessWidget {
+class UserSettings extends StatefulWidget {
+  @override
+  _UserSettingsState createState() => _UserSettingsState();
+}
+
+class _UserSettingsState extends State<UserSettings> {
+  final AuthService _auth = AuthService();
+
   bool _hasPic = true;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
@@ -27,14 +37,23 @@ class UserSettings extends StatelessWidget {
                     width: 100,
                     margin: EdgeInsets.only(top: 30),
                     child: Stack(children: [
-                      CircleAvatar(
-                          radius: 50,
-                          backgroundImage: _hasPic
-                              ? AssetImage('assets/images/ironman.jpg')
-                              : null),
+                      Center(
+                        child: CircleAvatar(
+                            foregroundColor: Colors.purple,
+                            radius: 50,
+                            backgroundImage: _hasPic
+                                ? AssetImage('assets/images/ironman.jpg')
+                                : null),
+                      ),
                       Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          child: IconButton(
+                            color: kAccentColor,
+                            icon: Icon(Icons.edit),
+                            splashRadius: 12,
+                            onPressed: () {},
+                          )
+                          /*Container(
                           height: 25,
                           width: 25,
                           decoration: BoxDecoration(
@@ -45,8 +64,8 @@ class UserSettings extends StatelessWidget {
                             color: kLightSecondaryColor,
                             size: ScreenUtil().setSp(15),
                           ),
-                        ),
-                      )
+                        ),*/
+                          )
                     ]),
                   ),
                   SizedBox(
@@ -76,17 +95,61 @@ class UserSettings extends StatelessWidget {
                 SizedBox(
                   width: 30,
                 ),
-                Icon(
-                  LineAwesomeIcons.info_circle,
+                IconButton(
+                    splashColor: Colors.lightBlueAccent,
+                    icon: Icon(Icons.logout),
+                    onPressed: () {
+                      Alert(
+                        context: context,
+                        type: AlertType.warning,
+                        title: "LOGOUT",
+                        desc:
+                            "Stai per disconnetterti dalla sessione attuale. Continuare?",
+                        buttons: [
+                          DialogButton(
+                            child: Text(
+                              "Indietro",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            color: Colors.purple,
+                          ),
+                          DialogButton(
+                            child: Text(
+                              "Disconnettimi",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            onPressed: () {
+                              _auth.signOut();
+                              Navigator.pop(context);
+                            },
+                            gradient: LinearGradient(colors: [
+                              Colors.purple,
+                              Colors.lightBlueAccent,
+                            ]),
+                          )
+                        ],
+                      ).show();
+                    }),
+                /*Icon(
+                  LineAwesomeIcons.alternate_sign_out,
                   size: ScreenUtil().setSp(30),
                   color: Colors.black,
-                ),
+                ),*/
                 profileInfo,
-                Icon(
+                IconButton(
+                    splashColor: Colors.lightBlueAccent,
+                    icon: Icon(Icons.nights_stay),
+                    onPressed: () {}),
+                /*Icon(
                   LineAwesomeIcons.moon,
                   size: ScreenUtil().setSp(30),
                   color: Colors.black,
-                ),
+                ),*/
                 SizedBox(
                   width: 30,
                 ),
@@ -109,27 +172,22 @@ class UserSettings extends StatelessWidget {
                           color: Colors.white,
                         ),
                         text: 'Privacy',
-                        hasNavigation: true,
                       ),
                       ProfileListItem(
                         icon: Icon(Icons.shopping_bag, color: Colors.white),
                         text: 'I miei ordini',
-                        hasNavigation: true,
                       ),
                       ProfileListItem(
                         icon: Icon(Icons.help, color: Colors.white),
                         text: 'Aiuto e supporto',
-                        hasNavigation: true,
                       ),
                       ProfileListItem(
                         icon: Icon(Icons.settings, color: Colors.white),
                         text: 'Impostazioni',
-                        hasNavigation: true,
                       ),
                       ProfileListItem(
                         icon: Icon(Icons.person_add, color: Colors.white),
                         text: 'Invita un Amico!',
-                        hasNavigation: true,
                       ),
                     ],
                   ))
@@ -146,11 +204,10 @@ class UserSettings extends StatelessWidget {
 class ProfileListItem extends StatefulWidget {
   final Icon icon;
   final text;
-  final bool hasNavigation;
+
   const ProfileListItem({
     this.icon,
     this.text,
-    this.hasNavigation,
     Key key,
   }) : super(key: key);
 
@@ -206,56 +263,3 @@ class _ProfileListItemState extends State<ProfileListItem> {
     );
   }
 }
-
-/*return Container(
-      height: 55,
-      margin: EdgeInsets.symmetric(
-        horizontal: 40,
-      ).copyWith(
-        bottom: 20,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: Colors.purple[300],
-      ),
-      child: Row(
-        children: <Widget>[
-          Icon(
-            this.widget.icon,
-            size: 25,
-            color: Colors.white,
-          ),
-          SizedBox(width: 15),
-          Text(
-            this.widget.text,
-            style: kTitleTextStyle.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Spacer(),
-          if (this.widget.hasNavigation)
-            Icon(
-              LineAwesomeIcons.angle_right,
-              size: 25,
-              color: Colors.white,
-            ),
-        ],
-      ),
-    );*/
-
-/*RaisedButton.icon(
-        splashColor: Colors.lightBlueAccent,
-        padding: EdgeInsets.all(13),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        color: Colors.lightBlue,
-        onPressed: () {},
-        icon: this.widget.icon,
-        label: Text(
-          this.widget.text,
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-      ),*/

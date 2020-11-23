@@ -1,11 +1,12 @@
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/auth.dart';
+import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/services/database.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -16,8 +17,6 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
   final AuthService _auth = AuthService();
-
-  bool _hasPic = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +36,15 @@ class _UserSettingsState extends State<UserSettings> {
                     width: 100,
                     margin: EdgeInsets.only(top: 30),
                     child: Stack(children: [
-                      Center(
-                        child: CircleAvatar(
-                            foregroundColor: Colors.purple,
-                            radius: 50,
-                            backgroundImage: _hasPic
-                                ? AssetImage('assets/images/ironman.jpg')
-                                : null),
+                      Avatar(
+                        avatarUrl: userData?.avatarUrl,
+                        onTap: () async {
+                          //open gallery and select an image
+                          await ImagePicker()
+                              .getImage(source: ImageSource.gallery);
+
+                          //TODO: upload to firebase storage
+                        },
                       ),
                       Align(
                           alignment: Alignment.bottomRight,

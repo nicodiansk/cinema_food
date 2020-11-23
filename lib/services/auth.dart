@@ -1,20 +1,19 @@
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //create a User from the custom class User from a Firebase User
-  User _userFromFirebaseUser(FirebaseUser user) {
+  User userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid, email: user.email) : null;
   }
 
   // auth change user stream
   Stream<User> get user {
     return _auth.onAuthStateChanged
-        .map((FirebaseUser user) => _userFromFirebaseUser(user));
+        .map((FirebaseUser user) => userFromFirebaseUser(user));
   }
 
   //sign in anon
@@ -22,7 +21,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInAnonymously();
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      return userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
       return null;
@@ -35,7 +34,7 @@ class AuthService {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      return userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
       return null;
@@ -53,7 +52,7 @@ class AuthService {
       //create a new document in the database
       await DatabaseService(uid: user.uid).updateUserData(nome, email, 0);
 
-      return _userFromFirebaseUser(user);
+      return userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
       return null;

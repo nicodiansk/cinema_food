@@ -19,7 +19,7 @@ class _RegisterState extends State<Register> {
   String nome = '';
   String email = '';
   String password = '';
-  String _password_confirm = '';
+  String _passwordConfirm = '';
   String error = '';
 
   @override
@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
                             obscureText: true,
                             onChanged: (value) {
                               setState(() {
-                                _password_confirm = value;
+                                _passwordConfirm = value;
                               });
                             },
                           ),
@@ -124,13 +124,13 @@ class _RegisterState extends State<Register> {
                                     setState(() {
                                       loading = true;
                                     });
-                                    if (password == _password_confirm) {
+                                    if (password == _passwordConfirm) {
                                       result = await _auth
                                           .registerWithEmailAndPassword(
                                               email, password, nome);
                                     }
                                     if (result == null &&
-                                        password == _password_confirm) {
+                                        password == _passwordConfirm) {
                                       setState(() {
                                         loading = false;
                                         error = 'Inserire una email valida!';

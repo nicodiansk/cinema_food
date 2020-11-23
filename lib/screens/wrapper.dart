@@ -12,6 +12,7 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<User>(
         context); //what type of data we receive every time there is a new value
     print('Stato attuale utenti: $user');
+
     if (user == null) {
       return Authenticate();
     } else {

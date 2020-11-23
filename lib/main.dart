@@ -1,6 +1,5 @@
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/screens/splash_screen.dart';
-import 'package:cinema_food/screens/wrapper.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';

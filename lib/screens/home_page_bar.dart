@@ -3,10 +3,8 @@ import 'package:cinema_food/screens/cinema/cart.dart';
 import 'package:cinema_food/screens/cinema/film.dart';
 import 'package:cinema_food/screens/cinema/menu.dart';
 import 'package:cinema_food/screens/home/home.dart';
-import 'package:cinema_food/services/auth.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class HomePageBar extends StatefulWidget {
   @override
@@ -14,7 +12,6 @@ class HomePageBar extends StatefulWidget {
 }
 
 class _HomePageBarState extends State<HomePageBar> {
-  final AuthService _auth = AuthService();
   int selectedPage = 0;
   final _pageOption = [Home(), MenuPage(), FilmPage(), UserSettings(), Cart()];
 

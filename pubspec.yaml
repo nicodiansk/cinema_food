@@ -29,9 +29,12 @@ dependencies:
   cupertino_icons: ^1.0.0
   firebase: ^7.3.2
   firebase_auth: ^0.14.0+0.5
+  firebase_core: ^0.4.0
+  firebase_storage: ^3.0.1
   flutter_screenutil: ^3.2.0
   flutter_spinkit: ^4.1.2+1
   font_awesome_flutter: ^8.10.0
+  image_picker: ^0.6.7+14
   line_awesome_flutter: ^1.0.1
   lottie: ^0.7.0+1
   page_transition: ^1.1.7+2

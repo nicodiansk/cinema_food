@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  final String avatarUrl;
+  final File avatarUrl;
   final Function onTap;
   Avatar({this.avatarUrl, this.onTap});
   @override
@@ -18,7 +20,14 @@ class Avatar extends StatelessWidget {
               : CircleAvatar(
                   foregroundColor: Colors.purple,
                   radius: 50,
-                  backgroundImage: NetworkImage(avatarUrl),
+                  child: ClipOval(
+                    child: Image.file(
+                      avatarUrl,
+                      fit: BoxFit.cover,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
                 ),
         ));
   }

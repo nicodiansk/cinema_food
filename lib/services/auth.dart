@@ -4,11 +4,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  User _currentUser;
 
   //create a User from the custom class User from a Firebase User
   User userFromFirebaseUser(FirebaseUser user) {
     return user != null ? User(uid: user.uid, email: user.email) : null;
   }
+
+  Future<User> getCurrentUser() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    _currentUser = userFromFirebaseUser(user);
+    return _currentUser;
+  }
+
+  User get currentUser => _currentUser;
 
   // auth change user stream
   Stream<User> get user {

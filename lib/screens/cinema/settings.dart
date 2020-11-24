@@ -1,3 +1,7 @@
+import 'dart:io';
+//import 'package:firebase/firebase.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/avatar.dart';
@@ -18,8 +22,33 @@ class UserSettings extends StatefulWidget {
 class _UserSettingsState extends State<UserSettings> {
   final AuthService _auth = AuthService();
 
+  File _image;
+
   @override
   Widget build(BuildContext context) {
+    Future getImage() async {
+      var image = await ImagePicker().getImage(source: ImageSource.gallery);
+      setState(() {
+        _image = File(image.path);
+        print(_image.path);
+      });
+    }
+
+    Future uploadProfilePicture(BuildContext context, User user) async {
+      String fileName = basename(_image.path);
+      print(_auth.currentUser);
+      var firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child('${user?.uid}/ProfilePicture/$fileName');
+      StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      setState(() {
+        print('Profile Picture uploaded');
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Profile Picture updated!')));
+      });
+    }
+
     ScreenUtil.init(context,
         allowFontScaling: true, designSize: Size(414, 896));
     final user = Provider.of<User>(context);
@@ -37,13 +66,12 @@ class _UserSettingsState extends State<UserSettings> {
                     margin: EdgeInsets.only(top: 30),
                     child: Stack(children: [
                       Avatar(
-                        avatarUrl: userData?.avatarUrl,
+                        avatarUrl: _image,
                         onTap: () async {
                           //open gallery and select an image
-                          await ImagePicker()
-                              .getImage(source: ImageSource.gallery);
-
-                          //TODO: upload to firebase storage
+                          setState(() {
+                            getImage();
+                          });
                         },
                       ),
                       Align(
@@ -52,7 +80,11 @@ class _UserSettingsState extends State<UserSettings> {
                             color: kAccentColor,
                             icon: Icon(Icons.edit),
                             splashRadius: 12,
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                uploadProfilePicture(context, user);
+                              });
+                            },
                           )
                           /*Container(
                           height: 25,

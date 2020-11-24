@@ -34,6 +34,7 @@ dependencies:
   flutter_screenutil: ^3.2.0
   flutter_spinkit: ^4.1.2+1
   font_awesome_flutter: ^8.10.0
+  http: ^0.12.2
   image_picker: ^0.6.7+14
   line_awesome_flutter: ^1.0.1
   lottie: ^0.7.0+1

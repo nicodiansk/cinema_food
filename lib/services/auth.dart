@@ -7,13 +7,20 @@ class AuthService {
   User _currentUser;
 
   //create a User from the custom class User from a Firebase User
-  User userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid, email: user.email) : null;
+  User _userFromFirebaseUser(
+      {FirebaseUser user, String name, int startingPoints}) {
+    return user != null
+        ? User(
+            uid: user.uid,
+            email: user.email,
+            name: name,
+            points: startingPoints)
+        : null;
   }
 
   Future<User> getCurrentUser() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    _currentUser = userFromFirebaseUser(user);
+    _currentUser = _userFromFirebaseUser(user: user);
     return _currentUser;
   }
 
@@ -22,7 +29,7 @@ class AuthService {
   // auth change user stream
   Stream<User> get user {
     return _auth.onAuthStateChanged
-        .map((FirebaseUser user) => userFromFirebaseUser(user));
+        .map((FirebaseUser user) => _userFromFirebaseUser(user: user));
   }
 
   //sign in anon
@@ -30,7 +37,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInAnonymously();
       FirebaseUser user = result.user;
-      return userFromFirebaseUser(user);
+      return _userFromFirebaseUser(user: user);
     } catch (e) {
       print(e.toString());
       return null;
@@ -38,12 +45,12 @@ class AuthService {
   }
 
   //sign in with email and password
-  Future signInWithEmailAndPassword(String email, String password) async {
+  Future<User> signInWithEmailAndPassword(String email, String password) async {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      return userFromFirebaseUser(user);
+      return _userFromFirebaseUser(user: user);
     } catch (e) {
       print(e.toString());
       return null;
@@ -55,13 +62,16 @@ class AuthService {
   Future registerWithEmailAndPassword(
       String email, String password, String nome) async {
     try {
+      int startingPoints = 0;
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
       //create a new document in the database
-      await DatabaseService(uid: user.uid).updateUserData(nome, email, 0);
+      await DatabaseService(uid: user.uid)
+          .setUserData(name: nome, email: email, points: startingPoints);
 
-      return userFromFirebaseUser(user);
+      return _userFromFirebaseUser(
+          user: user, name: nome, startingPoints: startingPoints);
     } catch (e) {
       print(e.toString());
       return null;

@@ -1,5 +1,6 @@
 import 'dart:io';
 //import 'package:firebase/firebase.dart';
+import 'package:cinema_food/services/storage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:cinema_food/modules/user.dart';
@@ -21,11 +22,16 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
   final AuthService _auth = AuthService();
+  final Storage _storage = Storage();
 
   File _image;
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    var firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('user/profile/${user?.uid}');
     Future getImage() async {
       var image = await ImagePicker().getImage(source: ImageSource.gallery);
       setState(() {
@@ -34,29 +40,29 @@ class _UserSettingsState extends State<UserSettings> {
       });
     }
 
-    Future uploadProfilePicture(BuildContext context, User user) async {
+    /*Future uploadProfilePicture(BuildContext context) async {
       String fileName = basename(_image.path);
       print(_auth.currentUser);
-      var firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('${user?.uid}/ProfilePicture/$fileName');
+
       StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      var completedTask = await uploadTask.onComplete;
+      String downloadUrl = await completedTask.ref.getDownloadURL();
       setState(() {
         print('Profile Picture uploaded');
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text('Profile Picture updated!')));
       });
-    }
+    }*/
 
     ScreenUtil.init(context,
         allowFontScaling: true, designSize: Size(414, 896));
-    final user = Provider.of<User>(context);
+
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserData userData = snapshot.data;
+
             var profileInfo = Expanded(
               child: Column(
                 children: [
@@ -66,12 +72,15 @@ class _UserSettingsState extends State<UserSettings> {
                     margin: EdgeInsets.only(top: 30),
                     child: Stack(children: [
                       Avatar(
-                        avatarUrl: _image,
+                        avatarUrlIntoAvatar: userData?.avatarUrl,
                         onTap: () async {
                           //open gallery and select an image
-                          setState(() {
+                          /*setState(() {
                             getImage();
-                          });
+                          });*/
+                          await getImage();
+                          await userData.uploadProfilePicture(_image);
+                          setState(() {});
                         },
                       ),
                       Align(
@@ -82,7 +91,7 @@ class _UserSettingsState extends State<UserSettings> {
                             splashRadius: 12,
                             onPressed: () {
                               setState(() {
-                                uploadProfilePicture(context, user);
+                                //uploadProfilePicture(context);
                               });
                             },
                           )

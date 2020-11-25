@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  final File avatarUrl;
+  final String avatarUrlIntoAvatar;
   final Function onTap;
-  Avatar({this.avatarUrl, this.onTap});
+  Avatar({this.avatarUrlIntoAvatar, this.onTap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: onTap,
         child: Center(
-          child: avatarUrl == null
+          child: avatarUrlIntoAvatar == null
               ? CircleAvatar(
                   foregroundColor: Colors.purple,
                   radius: 50,
@@ -20,14 +20,15 @@ class Avatar extends StatelessWidget {
               : CircleAvatar(
                   foregroundColor: Colors.purple,
                   radius: 50,
-                  child: ClipOval(
+                  backgroundImage: NetworkImage(avatarUrlIntoAvatar),
+                  /*child: ClipOval(
                     child: Image.file(
                       avatarUrl,
                       fit: BoxFit.cover,
                       height: 100,
                       width: 100,
                     ),
-                  ),
+                  ),*/
                 ),
         ));
   }

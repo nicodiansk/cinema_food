@@ -1,3 +1,4 @@
+import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
@@ -24,6 +25,7 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   String error = '';
+  UserData userData = UserData();
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +99,12 @@ class _SignInState extends State<SignIn> {
                                       setState(() {
                                         loading = true;
                                       });
-                                      dynamic result = await _auth
+                                      dynamic result =
+                                          userData.signInWithEmailAndPassword(
+                                              email: email, password: password);
+                                      /*dynamic result = await _auth
                                           .signInWithEmailAndPassword(
-                                              email, password);
+                                              email, password);*/
                                       if (result == null) {
                                         setState(() {
                                           loading = false;

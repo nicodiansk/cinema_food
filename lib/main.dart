@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           .user, //what kind of stream are we listening to from AuthService, with the metod Stream<User> get user
       child: MaterialApp(
         theme: kLightTheme,
+
         /*theme: ThemeData(
             primarySwatch: Colors.purple,
             primaryColor: Colors.lightBlueAccent,

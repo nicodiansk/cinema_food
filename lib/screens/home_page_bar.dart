@@ -1,9 +1,10 @@
-import 'package:cinema_food/screens/cinema/settings.dart';
-import 'package:cinema_food/screens/cinema/cart.dart';
-import 'package:cinema_food/screens/cinema/film.dart';
-import 'package:cinema_food/screens/cinema/menu.dart';
+import 'package:cinema_food/screens/cinema_home_screens/cart.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'cinema_home_screens/film.dart';
+import 'cinema_home_screens/menu.dart';
+import 'cinema_home_screens/settings.dart';
 
 class HomePageBar extends StatefulWidget {
   @override

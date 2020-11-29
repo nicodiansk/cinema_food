@@ -14,7 +14,7 @@ const textInputDecoration = InputDecoration(
 );
 
 const kSpacingUnit = 10;
-
+const kTextColor = Colors.black;
 const kDarkPrimaryColor = Color(0xFF212121);
 const kDarkSecondaryColor = Color(0xFF373737);
 const kLightPrimaryColor = Colors.lightBlueAccent;
@@ -36,6 +36,11 @@ final kButtonTextStyle = TextStyle(
   fontWeight: FontWeight.w400,
   color: kDarkPrimaryColor,
 );
+
+final kMenuButtonTextStyle = TextStyle(
+    fontSize: ScreenUtil().setSp(20),
+    fontWeight: FontWeight.w400,
+    color: kLightSecondaryColor);
 
 final kDarkTheme = ThemeData(
   brightness: Brightness.dark,

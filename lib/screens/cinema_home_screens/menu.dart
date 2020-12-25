@@ -65,11 +65,27 @@ class _MenuPageState extends State<MenuPage> {
                 List<FoodCard> foods = snapshot.data;
                 return Expanded(
                   child: ListView.builder(
-                    shrinkWrap: false,
-                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
                     itemCount: foods.length,
                     itemBuilder: (context, index) {
                       FoodCard fc = foods[index];
+                      fc.press = () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return DetailsScreen(
+                            productId: fc.productId,
+                            title: fc.title,
+                            category: fc.category,
+                            size: fc.size,
+                            ingredients: fc.ingredients,
+                            image: fc.image,
+                            price: fc.price,
+                            calories: fc.calories,
+                            description: fc.description,
+                          );
+                        }));
+                      };
                       return fc;
                     },
                   ),
@@ -77,7 +93,7 @@ class _MenuPageState extends State<MenuPage> {
               } else if (snapshot.hasError) {
                 return Text("Errore: ${snapshot.error}");
               }
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             },
           )
         ],

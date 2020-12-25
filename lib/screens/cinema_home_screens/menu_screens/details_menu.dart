@@ -2,6 +2,28 @@ import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatelessWidget {
+  final int productId;
+  final String title;
+  final String category;
+  final String size;
+  final String ingredients;
+  final String image;
+  final double price;
+  final double calories;
+  final String description;
+
+  const DetailsScreen({
+    @required this.productId,
+    @required this.title,
+    @required this.category,
+    @required this.size,
+    @required this.ingredients,
+    @required this.image,
+    @required this.price,
+    @required this.calories,
+    @required this.description,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +46,8 @@ class DetailsScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(vertical: 30),
               padding: EdgeInsets.all(6),
-              height: 305,
-              width: 305,
+              height: 270,
+              width: 270,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: kLightPrimaryColor,
@@ -33,8 +55,8 @@ class DetailsScreen extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/image_1_big.png"),
-                    fit: BoxFit.cover,
+                    image: NetworkImage(image),
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
@@ -46,11 +68,11 @@ class DetailsScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Vegan salad bowl\n",
-                        style: Theme.of(context).textTheme.title,
+                        text: "$title\n",
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       TextSpan(
-                        text: "With red tomato",
+                        text: "$ingredients",
                         style: TextStyle(
                           color: kTextColor.withOpacity(.5),
                         ),
@@ -59,7 +81,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$20",
+                  "\€ $price",
                   style: Theme.of(context)
                       .textTheme
                       .headline5
@@ -69,7 +91,8 @@ class DetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.",
+              "$description",
+              maxLines: 4,
             ),
             Spacer(),
             Padding(

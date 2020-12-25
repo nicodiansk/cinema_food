@@ -33,3 +33,24 @@ class Avatar extends StatelessWidget {
         ));
   }
 }
+
+class FoodAvatar extends StatelessWidget {
+  final String image_url;
+  FoodAvatar(this.image_url);
+  bool isUrl() {
+    return Uri.parse(image_url).isAbsolute;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: isUrl() == false
+          ? CircularProgressIndicator()
+          : CircleAvatar(
+              foregroundColor: Colors.purple,
+              radius: 100,
+              backgroundImage: NetworkImage(image_url),
+            ),
+    );
+  }
+}

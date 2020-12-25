@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -36,21 +37,20 @@ class FoodCard extends StatelessWidget {
   final double price;
   final double calories;
   final String description;
-  final Function press;
+  Function press;
 
-  const FoodCard(
-      {Key key,
-      this.productId,
-      this.title,
-      this.category,
-      this.size,
-      this.ingredients,
-      this.image,
-      this.price,
-      this.calories,
-      this.description,
-      this.press})
-      : super(key: key);
+  FoodCard({
+    Key key,
+    this.productId,
+    this.title,
+    this.category,
+    this.size,
+    this.ingredients,
+    this.image,
+    this.price,
+    this.calories,
+    this.description,
+  }) : super(key: key);
 
   factory FoodCard.fromJson(Map<String, dynamic> json) {
     return FoodCard(
@@ -78,11 +78,13 @@ class FoodCard extends StatelessWidget {
           children: <Widget>[
             //big container
             Positioned(
-              right: 0,
+              top: 20,
+              left: 0,
+              right: 20,
               bottom: 40,
               child: Container(
                 height: 380,
-                width: 250,
+                width: 380,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(34),
                     color: kLightSecondaryColor.withOpacity(0.08)),
@@ -106,23 +108,22 @@ class FoodCard extends StatelessWidget {
             Positioned(
               top: 0,
               left: -50,
-              child: Container(
-                height: 184,
-                width: 276,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(image))),
-              ),
+              child: Container(height: 184, width: 276, child: FoodAvatar(image)
+                  /*decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(image), fit: BoxFit.contain)),*/
+                  ),
             ),
 
             //price
             Positioned(
               top: 80,
-              right: 20,
+              right: 80,
               child: Text(
                 '\€$price',
                 style: TextStyle(
                     color: kLightSecondaryColor,
-                    fontSize: 22,
+                    fontSize: 40,
                     fontWeight: FontWeight.w900),
               ),
             ),

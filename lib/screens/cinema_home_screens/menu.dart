@@ -7,86 +7,80 @@ import 'package:flutter/material.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MenuPage extends StatelessWidget {
+class MenuPage extends StatefulWidget {
+  @override
+  _MenuPageState createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+  Future<List<FoodCard>> futureFoodList;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    futureFoodList = fetchFoodList();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-              child: PageTitle(
-                title: 'Tutto il cibo che vuoi \nlo trovi qui',
-              ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+            child: PageTitle(
+              title: 'Tutto il cibo che vuoi \nlo trovi qui',
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  CategoryTitle(title: 'Cibo', active: true),
-                  CategoryTitle(title: 'Bevande'),
-                  CategoryTitle(title: 'Dolci'),
-                ],
-              ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: <Widget>[
+                CategoryTitle(title: 'Cibo', active: true),
+                CategoryTitle(title: 'Bevande'),
+                CategoryTitle(title: 'Dolci'),
+                CategoryTitle(title: 'Dolci'),
+                CategoryTitle(title: 'Dolci'),
+              ],
             ),
-            Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                width: double.infinity,
-                height: 50,
-                child: TextFormField(
-                    decoration: textInputDecoration.copyWith(
-                        hintText: 'Cerca qualcosa!',
-                        prefixIcon: Icon(Icons.search_sharp)))),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  FoodCard(
-                    press: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return DetailsScreen();
-                        },
-                      ));
+          ),
+          Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              width: double.infinity,
+              height: 50,
+              child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      hintText: 'Cerca qualcosa!',
+                      prefixIcon: Icon(Icons.search_sharp)))),
+          FutureBuilder<List<FoodCard>>(
+            future: futureFoodList,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<FoodCard> foods = snapshot.data;
+                return Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: false,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: foods.length,
+                    itemBuilder: (context, index) {
+                      FoodCard fc = foods[index];
+                      return fc;
                     },
-                    title: 'Insalata',
-                    ingredient: 'foglie di Ale Delle Foglie',
-                    image: 'assets/images/image_1.png',
-                    price: 10,
-                    calories: '400',
-                    description:
-                        'Provaaaaaaaa thge hgahte rath arth arth arh arth srthr sthrtju6u ju jku j rgegw gw g',
                   ),
-                  FoodCard(
-                    press: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return DetailsScreen();
-                        },
-                      ));
-                    },
-                    title: 'Insalata',
-                    ingredient: 'foglie di Ale Delle Foglie',
-                    image: 'assets/images/image_2.png',
-                    price: 10,
-                    calories: '400',
-                    description:
-                        'Provaaaaaaaa thge hgahte rath arth arth arh arth srthr sthrtju6u ju jku j rgegw gw g',
-                  ),
-
-                  //sized box for the end of the children
-                  SizedBox(width: 20)
-                ],
-              ),
-            )
-          ],
-        ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("Errore: ${snapshot.error}");
+              }
+              return CircularProgressIndicator();
+            },
+          )
+        ],
       ),
     );
   }

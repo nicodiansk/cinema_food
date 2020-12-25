@@ -1,26 +1,70 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 
-class FoodCard extends StatelessWidget {
-  final String title;
-  final String ingredient;
-  final String image;
-  final int price;
-  final String calories;
-  final String description;
+import 'package:http/http.dart';
 
+Future<List<FoodCard>> fetchFoodList() async {
+  List<FoodCard> foodList;
+  print('PRIMA DI AWAIT');
+  final response = await get('http://18.219.187.195/api/food/getall');
+  print('OTTENUTO');
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    foodList = (json.decode(response.body) as List)
+        .map((i) => FoodCard.fromJson(i))
+        .toList();
+    return foodList;
+    //Album.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+class FoodCard extends StatelessWidget {
+  final int productId;
+  final String title;
+  final String category;
+  final String size;
+  final String ingredients;
+  final String image;
+  final double price;
+  final double calories;
+  final String description;
   final Function press;
 
   const FoodCard(
       {Key key,
+      this.productId,
       this.title,
-      this.ingredient,
+      this.category,
+      this.size,
+      this.ingredients,
       this.image,
       this.price,
       this.calories,
       this.description,
       this.press})
       : super(key: key);
+
+  factory FoodCard.fromJson(Map<String, dynamic> json) {
+    return FoodCard(
+      productId: json['id'],
+      title: json['title'],
+      category: json['cat'],
+      size: json['size'],
+      ingredients: json['ingredients'],
+      image: json['image'],
+      price: json['price'],
+      calories: json['calories'],
+      description: json['description'],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +79,7 @@ class FoodCard extends StatelessWidget {
             //big container
             Positioned(
               right: 0,
-              bottom: 0,
+              bottom: 40,
               child: Container(
                 height: 380,
                 width: 250,
@@ -66,7 +110,7 @@ class FoodCard extends StatelessWidget {
                 height: 184,
                 width: 276,
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(image))),
+                    image: DecorationImage(image: NetworkImage(image))),
               ),
             ),
 
@@ -98,7 +142,7 @@ class FoodCard extends StatelessWidget {
                             fontWeight: FontWeight.w900),
                       ),
                       Text(
-                        'Con $ingredient',
+                        'Con $ingredients',
                         style: TextStyle(
                             color: kTextColor.withOpacity(0.5),
                             fontSize: 15,
@@ -115,7 +159,7 @@ class FoodCard extends StatelessWidget {
                         height: 15,
                       ),
                       Text(
-                        calories,
+                        '$calories',
                         style: TextStyle(color: kTextColor),
                       )
                     ],

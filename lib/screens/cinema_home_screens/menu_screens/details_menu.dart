@@ -1,7 +1,9 @@
+import 'package:cinema_food/screens/cinema_home_screens/cart.dart';
+import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   final int productId;
   final String title;
   final String category;
@@ -12,7 +14,7 @@ class DetailsScreen extends StatelessWidget {
   final double calories;
   final String description;
 
-  const DetailsScreen({
+  DetailsScreen({
     @required this.productId,
     @required this.title,
     @required this.category,
@@ -24,6 +26,12 @@ class DetailsScreen extends StatelessWidget {
     @required this.description,
   });
 
+  @override
+  _DetailsScreenState createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  var countBag = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,23 +52,24 @@ class DetailsScreen extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 30),
-              padding: EdgeInsets.all(6),
-              height: 270,
-              width: 270,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: kLightPrimaryColor,
-              ),
-              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 30),
+                padding: EdgeInsets.all(6),
+                height: 230,
+                width: 230,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kLightSecondaryColor.withOpacity(0.4),
+                ),
+                child: FoodAvatar(widget
+                    .image) /*Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(image),
                     fit: BoxFit.fill,
                   ),
                 ),
-              ),
-            ),
+              ),*/
+                ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -68,11 +77,11 @@ class DetailsScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "$title\n",
+                        text: "${widget.title}\n",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       TextSpan(
-                        text: "$ingredients",
+                        text: "${widget.ingredients}",
                         style: TextStyle(
                           color: kTextColor.withOpacity(.5),
                         ),
@@ -81,7 +90,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\€ $price",
+                  "\€ ${widget.price}",
                   style: Theme.of(context)
                       .textTheme
                       .headline5
@@ -91,7 +100,7 @@ class DetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              "$description",
+              "${widget.description}",
               maxLines: 4,
             ),
             Spacer(),
@@ -100,42 +109,68 @@ class DetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 27),
-                    decoration: BoxDecoration(
-                      color: kLightSecondaryColor.withOpacity(.19),
-                      borderRadius: BorderRadius.circular(27),
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          "Add to bag",
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                        SizedBox(width: 30),
-                        Icon(Icons.navigate_next),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      ButtonTheme(
+                        minWidth: 140,
+                        child: RaisedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                countBag++;
+                              });
+                            },
+                            color: Colors.purple[300],
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              'Add to bag!',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                      ButtonTheme(
+                        minWidth: 140,
+                        child: RaisedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                countBag > 0 ? countBag-- : null;
+                              });
+                            },
+                            color: kLightPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            icon: Icon(
+                              Icons.remove,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              'Remove one!',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    ],
                   ),
                   Container(
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: kLightSecondaryColor.withOpacity(.26),
+                      color: Colors.purple[300],
                     ),
                     child: Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: kLightSecondaryColor,
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.shopping_bag,
+                            color: Colors.white,
                           ),
-                          child: Icon(Icons.shopping_bag),
+                          color: Colors.black,
+                          splashColor: Colors.lightBlueAccent,
                         ),
                         Positioned(
                           right: 15,
@@ -149,7 +184,7 @@ class DetailsScreen extends StatelessWidget {
                               color: Colors.white,
                             ),
                             child: Text(
-                              "0",
+                              "$countBag",
                               style: Theme.of(context)
                                   .textTheme
                                   .button

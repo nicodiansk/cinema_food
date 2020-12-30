@@ -1,28 +1,40 @@
 import 'dart:convert';
-import 'dart:ffi';
+// ignore: avoid_web_libraries_in_flutter
 
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart';
 
 Future<List<FoodCard>> fetchFoodList() async {
   List<FoodCard> foodList;
-  print('PRIMA DI AWAIT');
-  final response = await get('http://18.219.187.195/api/food/getall');
-  print('OTTENUTO');
+  String token;
+  //HttpHeaders.authorizationHeader: token
+  //"Authorization": 'Bearer $token'
+  FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  var idToken = await user.getIdToken();
+  token = idToken.token;
+  print(token);
+  final response = await http.get('http://18.219.187.195/api/food/getall',
+      headers: {'Authorization': 'Bearer $token'});
   if (response.statusCode == 200) {
+    print('response ' + response.body.toString());
     // If the server did return a 200 OK response,
     // then parse the JSON.
     foodList = (json.decode(response.body) as List)
         .map((i) => FoodCard.fromJson(i))
         .toList();
+
     return foodList;
     //Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
+    print(response.body);
     throw Exception('Failed to load album');
   }
 }

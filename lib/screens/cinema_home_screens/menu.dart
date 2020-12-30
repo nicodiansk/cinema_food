@@ -1,11 +1,14 @@
+import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/screens/cinema_home_screens/menu_screens/details_menu.dart';
 import 'package:cinema_food/shared/category_title.dart';
 import 'package:cinema_food/shared/food_card.dart';
 import 'package:cinema_food/shared/page_title.dart';
 import 'package:cinema_food/shared/screen_title.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -14,9 +17,9 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   Future<List<FoodCard>> futureFoodList;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     futureFoodList = fetchFoodList();
   }
@@ -40,10 +43,9 @@ class _MenuPageState extends State<MenuPage> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
-                CategoryTitle(title: 'Cibo', active: true),
+                CategoryTitle(title: 'Tutti', active: true),
+                CategoryTitle(title: 'Cibo'),
                 CategoryTitle(title: 'Bevande'),
-                CategoryTitle(title: 'Dolci'),
-                CategoryTitle(title: 'Dolci'),
                 CategoryTitle(title: 'Dolci'),
               ],
             ),
@@ -92,8 +94,10 @@ class _MenuPageState extends State<MenuPage> {
                 );
               } else if (snapshot.hasError) {
                 return Text("Errore: ${snapshot.error}");
+              } else {
+                print('QUI');
+                return Center(child: CircularProgressIndicator());
               }
-              return Center(child: CircularProgressIndicator());
             },
           )
         ],

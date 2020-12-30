@@ -4,6 +4,7 @@ import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dcdg/dcdg.dart';
 
 void main() {
   runApp(MyApp());

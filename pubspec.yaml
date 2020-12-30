@@ -42,6 +42,7 @@ dependencies:
   provider: ^4.3.2+2
   rflutter_alert: ^1.1.0
   video_player: ^1.0.1
+  dcdg: ^2.0.1
 
 dev_dependencies:
   flutter_test:

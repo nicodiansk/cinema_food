@@ -1,4 +1,4 @@
-import 'package:cinema_food/screens/cinema_home_screens/cart.dart';
+import 'package:cinema_food/screens/cinema_home_screens/cart_screen.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,9 @@
-import 'package:cinema_food/screens/cinema_home_screens/cart.dart';
+import 'package:cinema_food/screens/cinema_home_screens/cart_screen.dart';
 import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class DetailsScreen extends StatefulWidget {
   final int productId;
@@ -114,10 +116,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ButtonTheme(
                         minWidth: 140,
                         child: RaisedButton.icon(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
                                 countBag++;
                               });
+                              String token;
+                              FirebaseUser user =
+                                  await FirebaseAuth.instance.currentUser();
+                              var idToken = await user.getIdToken();
+                              token = idToken.token;
+                              final response = await post(
+                                  'http://18.219.187.195/api/cart/addproduct',
+                                  headers: {'Authorization': 'Bearer $token'},
+                                  body: {'productId': '${widget.productId}'});
+                              if (response.statusCode == 200) {
+                                print('response ' + response.body.toString());
+                              } else {
+                                print(response.body);
+                                throw Exception('Failed to load album');
+                              }
                             },
                             color: Colors.purple[300],
                             shape: RoundedRectangleBorder(
@@ -134,10 +151,28 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ButtonTheme(
                         minWidth: 140,
                         child: RaisedButton.icon(
-                            onPressed: () {
+                            onPressed: () async {
                               setState(() {
-                                countBag > 0 ? countBag-- : null;
+                                if (countBag > 0) {
+                                  countBag--;
+                                }
                               });
+
+                              String token;
+                              FirebaseUser user =
+                                  await FirebaseAuth.instance.currentUser();
+                              var idToken = await user.getIdToken();
+                              token = idToken.token;
+                              final response = await post(
+                                  'http://18.219.187.195/api/cart/removeproduct',
+                                  headers: {'Authorization': 'Bearer $token'},
+                                  body: {'productId': '${widget.productId}'});
+                              if (response.statusCode == 200) {
+                                print('response ' + response.body.toString());
+                              } else {
+                                print(response.body);
+                                throw Exception('Failed to load album');
+                              }
                             },
                             color: kLightPrimaryColor,
                             shape: RoundedRectangleBorder(

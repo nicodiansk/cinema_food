@@ -1,10 +1,6 @@
-import 'package:cinema_food/modules/cart_list.dart';
-import 'package:cinema_food/modules/food.dart';
+import 'package:cinema_food/modules/cart_card.dart';
 import 'package:cinema_food/shared/page_title.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:cinema_food/services/database.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -12,22 +8,80 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  List<Food> cart;
+  Future<List<CartCard>> futureFoodList;
+
+  @override
+  void initState() {
+    super.initState();
+    futureFoodList = fetchCartList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
-            child: PageTitle(
-              title: 'Il tuo carrello',
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: PageTitle(
+                title: 'Il tuo carrello',
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            FutureBuilder<List<CartCard>>(
+              future: futureFoodList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<CartCard> foods = snapshot.data;
+                  if (snapshot.data.length == 0) {
+                    return Center(
+                      heightFactor: 15,
+                      widthFactor: 10,
+                      child: Text(
+                        'Il tuo carrello è vuoto 😣',
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return Expanded(
+                    child: MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: foods.length,
+                        itemBuilder: (context, index) {
+                          CartCard fc = foods[index];
+                          //return fc;
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(fc.image),
+                            ),
+                            title: Text(fc.title),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("Errore: ${snapshot.error}");
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

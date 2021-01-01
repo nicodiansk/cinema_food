@@ -1,7 +1,6 @@
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';

@@ -83,7 +83,7 @@ class FoodCard extends StatelessWidget {
       onTap: press,
       child: Container(
         margin: EdgeInsets.only(left: 20),
-        height: 400,
+        height: 380,
         width: 270,
         child: Stack(
           children: <Widget>[
@@ -92,13 +92,14 @@ class FoodCard extends StatelessWidget {
               top: 20,
               left: 0,
               right: 20,
-              bottom: 40,
+              bottom: 10,
               child: Container(
                 height: 380,
                 width: 380,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(34),
-                    color: kLightSecondaryColor.withOpacity(0.08)),
+                  borderRadius: BorderRadius.circular(34),
+                  color: kLightSecondaryColor.withOpacity(0.08),
+                ),
               ),
             ),
 

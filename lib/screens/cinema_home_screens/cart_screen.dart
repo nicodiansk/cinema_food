@@ -1,6 +1,7 @@
 import 'package:cinema_food/modules/cart_card.dart';
 import 'package:cinema_food/shared/page_title.dart';
 import 'package:flutter/material.dart';
+import 'package:darq/darq.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -39,6 +40,8 @@ class _CartState extends State<Cart> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<CartCard> foods = snapshot.data;
+                  //var uniqueFoods = foods.distinct((d) => d.productId).toList();
+
                   if (snapshot.data.length == 0) {
                     return Center(
                       heightFactor: 15,
@@ -62,13 +65,14 @@ class _CartState extends State<Cart> {
                         itemCount: foods.length,
                         itemBuilder: (context, index) {
                           CartCard fc = foods[index];
-                          //return fc;
-                          return ListTile(
+
+                          return fc;
+                          /*return ListTile(
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(fc.image),
                             ),
                             title: Text(fc.title),
-                          );
+                          );*/
                         },
                       ),
                     ),

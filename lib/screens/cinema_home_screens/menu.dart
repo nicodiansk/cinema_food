@@ -13,16 +13,27 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   Future<List<FoodCard>> futureFoodList;
+  ScrollController controller = ScrollController();
+  bool closeTopContainer = false;
+  double topContainer = 0;
 
   @override
   void initState() {
     super.initState();
     futureFoodList = fetchFoodList();
+    controller.addListener(() {
+      double value = controller.offset / 119;
+      setState(() {
+        topContainer = value;
+        closeTopContainer = controller.offset > 50;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final double categoryHeight = size.height * 0.2;
     ScreenUtil.init(context);
     return SafeArea(
       child: Scaffold(
@@ -49,7 +60,7 @@ class _MenuPageState extends State<MenuPage> {
                 ],
               ),
             ),*/
-            Container(
+            /*Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -58,7 +69,8 @@ class _MenuPageState extends State<MenuPage> {
                 child: TextFormField(
                     decoration: textInputDecoration.copyWith(
                         hintText: 'Cerca qualcosa!',
-                        prefixIcon: Icon(Icons.search_sharp)))),
+                        prefixIcon: Icon(Icons.search_sharp)))),*/
+
             FutureBuilder<List<FoodCard>>(
               future: futureFoodList,
               builder: (context, snapshot) {
@@ -66,10 +78,13 @@ class _MenuPageState extends State<MenuPage> {
                   List<FoodCard> foods = snapshot.data;
                   return Expanded(
                     child: ListView.builder(
+                      controller: controller,
+                      physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: foods.length,
                       itemBuilder: (context, index) {
+                        //dont delete
                         FoodCard fc = foods[index];
                         fc.press = () {
                           Navigator.push(context,
@@ -87,6 +102,9 @@ class _MenuPageState extends State<MenuPage> {
                             );
                           }));
                         };
+
+                        //dont delete
+
                         return fc;
                       },
                     ),
@@ -111,8 +129,6 @@ class CategoriesScroller extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double categoryHeight =
-        MediaQuery.of(context).size.height * 0.30 - 50;
     return SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
@@ -121,14 +137,17 @@ class CategoriesScroller extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.fill,
             alignment: Alignment.topCenter,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                CategoryTitle(title: 'Tutti', active: true),
-                CategoryTitle(title: 'Cibo'),
-                CategoryTitle(title: 'Bevande'),
-                CategoryTitle(title: 'Dolci'),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 22),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CategoryTitle(title: 'Tutti', active: true),
+                  CategoryTitle(title: 'Cibo'),
+                  CategoryTitle(title: 'Bevande'),
+                  CategoryTitle(title: 'Dolci'),
+                ],
+              ),
             ),
           ),
         ));

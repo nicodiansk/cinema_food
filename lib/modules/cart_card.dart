@@ -38,6 +38,7 @@ Future<List<CartCard>> fetchCartList() async {
   }
 }
 
+// ignore: must_be_immutable
 class CartCard extends StatelessWidget {
   final int productId;
   final String title;
@@ -48,6 +49,7 @@ class CartCard extends StatelessWidget {
   final double price;
   final double calories;
   final String description;
+  int quantity = 0;
 
   CartCard({
     Key key,
@@ -79,69 +81,44 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 150,
-      width: 270,
-      child: Stack(
-        children: <Widget>[
-          //big container
-          Positioned(
-            top: 20,
-            left: 0,
-            right: 20,
-            bottom: 40,
-            child: Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(34),
-                  color: kLightSecondaryColor.withOpacity(0.08)),
-            ),
-          ),
-
-          //Food Image
-          Positioned(
-            top: 15,
-            left: -30,
-            child: Container(
-                height: 100, width: 150, child: CartFoodAvatar(image)
-                /*decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(image), fit: BoxFit.contain)),*/
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      height: 100,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10)
+          ]),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
-          ),
-
-          //price
-          Positioned(
-            top: 52,
-            right: 80,
-            child: Text(
-              '\€$price',
-              style: TextStyle(
-                  color: kLightSecondaryColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900),
-            ),
-          ),
-          Positioned(
-              top: 55,
-              left: 100,
-              child: Container(
-                width: 210,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: TextStyle(
-                          color: kTextColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ],
+                SizedBox(
+                  height: 10,
                 ),
-              ))
-        ],
+                Text(
+                  "\€ $price",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            CircleAvatar(
+              minRadius: 40,
+              backgroundImage: NetworkImage(image),
+            )
+          ],
+        ),
       ),
     );
   }

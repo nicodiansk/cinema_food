@@ -1,4 +1,4 @@
-import 'package:cinema_food/screens/cinema_home_screens/cart_screen.dart';
+import 'dart:convert';
 import 'package:cinema_food/shared/avatar.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +15,7 @@ class DetailsScreen extends StatefulWidget {
   final double price;
   final double calories;
   final String description;
+  int quantity;
 
   DetailsScreen({
     @required this.productId,
@@ -33,7 +34,50 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  var countBag = 0;
+  Future<int> countBag;
+  int current;
+
+  Future<int> getItemQty() async {
+    int qty;
+    String token;
+    //HttpHeaders.authorizationHeader: token
+    //"Authorization": 'Bearer $token'
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    var idToken = await user.getIdToken();
+    token = idToken.token;
+    print(token);
+    final response = await post('http://159.203.88.177/api/cart/getitemqty',
+        headers: {'Authorization': 'Bearer $token'},
+        body: {'productId': '${widget.productId}'});
+
+    if (response.statusCode == 200) {
+      var resBody = json.decode(response.body);
+      qty = resBody['qty'];
+      print("QUANTITY: $qty");
+      return qty;
+      //Album.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print(response.body);
+      throw Exception('Failed to load album');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    countBag = getItemQty();
+    countBag.then((value) {
+      setState(() {
+        current = value;
+      });
+
+      print("CURRENT $current");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +162,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         child: RaisedButton.icon(
                             onPressed: () async {
                               setState(() {
-                                countBag++;
+                                current++;
                               });
                               String token;
                               FirebaseUser user =
@@ -126,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               var idToken = await user.getIdToken();
                               token = idToken.token;
                               final response = await post(
-                                  'http://18.219.187.195/api/cart/addproduct',
+                                  'http://159.203.88.177/api/cart/addproduct',
                                   headers: {'Authorization': 'Bearer $token'},
                                   body: {'productId': '${widget.productId}'});
                               if (response.statusCode == 200) {
@@ -153,8 +197,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         child: RaisedButton.icon(
                             onPressed: () async {
                               setState(() {
-                                if (countBag > 0) {
-                                  countBag--;
+                                if (current > 0) {
+                                  current--;
                                 }
                               });
 
@@ -164,7 +208,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               var idToken = await user.getIdToken();
                               token = idToken.token;
                               final response = await post(
-                                  'http://18.219.187.195/api/cart/removeproduct',
+                                  'http://159.203.88.177/api/cart/removeproduct',
                                   headers: {'Authorization': 'Bearer $token'},
                                   body: {'productId': '${widget.productId}'});
                               if (response.statusCode == 200) {
@@ -219,7 +263,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               color: Colors.white,
                             ),
                             child: Text(
-                              "$countBag",
+                              "$current",
                               style: Theme.of(context)
                                   .textTheme
                                   .button

@@ -1,3 +1,4 @@
+import 'package:cinema_food/modules/cart_card.dart';
 import 'package:cinema_food/screens/cinema_home_screens/menu_screens/details_menu.dart';
 import 'package:cinema_food/shared/category_title.dart';
 import 'package:cinema_food/modules/food_card.dart';
@@ -21,19 +22,11 @@ class _MenuPageState extends State<MenuPage> {
   void initState() {
     super.initState();
     futureFoodList = fetchFoodList();
-    controller.addListener(() {
-      double value = controller.offset / 119;
-      setState(() {
-        topContainer = value;
-        closeTopContainer = controller.offset > 50;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final double categoryHeight = size.height * 0.2;
     ScreenUtil.init(context);
     return SafeArea(
       child: Scaffold(

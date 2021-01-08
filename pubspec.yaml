@@ -44,6 +44,8 @@ dependencies:
   video_player: ^1.0.1
   dcdg: ^2.0.1
   darq: ^0.4.0+1
+  smart_select: ^4.3.2
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

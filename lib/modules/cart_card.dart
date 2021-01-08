@@ -18,7 +18,7 @@ Future<List<CartCard>> fetchCartList() async {
   var idToken = await user.getIdToken();
   token = idToken.token;
   print(token);
-  final response = await http.get('http://18.219.187.195/api/cart/getcart',
+  final response = await http.get('http://159.203.88.177/api/cart/getcart',
       headers: {'Authorization': 'Bearer $token'});
   if (response.statusCode == 200) {
     print('response ' + response.body.toString());
@@ -49,7 +49,7 @@ class CartCard extends StatelessWidget {
   final double price;
   final double calories;
   final String description;
-  int quantity = 0;
+  final int quantity;
 
   CartCard({
     Key key,
@@ -62,6 +62,7 @@ class CartCard extends StatelessWidget {
     this.price,
     this.calories,
     this.description,
+    this.quantity,
   }) : super(key: key);
 
   factory CartCard.fromJson(Map<String, dynamic> json) {
@@ -75,6 +76,7 @@ class CartCard extends StatelessWidget {
       price: json['price'],
       calories: json['calories'],
       description: json['description'],
+      quantity: json['qty'],
     );
   }
 
@@ -82,7 +84,7 @@ class CartCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      height: 100,
+      height: 130,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: Colors.white,
@@ -110,11 +112,18 @@ class CartCard extends StatelessWidget {
                       fontSize: 25,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "x $quantity",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             ),
             CircleAvatar(
-              minRadius: 40,
+              minRadius: 50,
               backgroundImage: NetworkImage(image),
             )
           ],

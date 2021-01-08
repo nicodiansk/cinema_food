@@ -18,10 +18,10 @@ Future<List<FoodCard>> fetchFoodList() async {
   var idToken = await user.getIdToken();
   token = idToken.token;
   print(token);
-  final response = await http.get('http://18.219.187.195/api/food/getall',
+  final response = await http.get('http://159.203.88.177/api/product/getall',
       headers: {'Authorization': 'Bearer $token'});
   if (response.statusCode == 200) {
-    print('response ' + response.body.toString());
+    print('response getall' + response.body.toString());
     // If the server did return a 200 OK response,
     // then parse the JSON.
     foodList = (json.decode(response.body) as List)
@@ -38,6 +38,7 @@ Future<List<FoodCard>> fetchFoodList() async {
   }
 }
 
+// ignore: must_be_immutable
 class FoodCard extends StatelessWidget {
   final int productId;
   final String title;
@@ -48,6 +49,7 @@ class FoodCard extends StatelessWidget {
   final double price;
   final double calories;
   final String description;
+  final int quantity;
   Function press;
 
   FoodCard({
@@ -61,6 +63,7 @@ class FoodCard extends StatelessWidget {
     this.price,
     this.calories,
     this.description,
+    this.quantity,
   }) : super(key: key);
 
   factory FoodCard.fromJson(Map<String, dynamic> json) {
@@ -74,6 +77,7 @@ class FoodCard extends StatelessWidget {
       price: json['price'],
       calories: json['calories'],
       description: json['description'],
+      quantity: json['qty'],
     );
   }
 

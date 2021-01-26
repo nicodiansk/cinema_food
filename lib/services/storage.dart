@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class Storage {
   AuthService _auth = AuthService();
@@ -20,7 +18,6 @@ class Storage {
 
     var firebaseStorageRef =
         FirebaseStorage.instance.ref().child('user/profile/${user?.uid}');
-    String fileName = basename(_image.path);
 
     var uploadTask = firebaseStorageRef.putFile(_image);
     var completedTask = await uploadTask.onComplete;

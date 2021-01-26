@@ -1,5 +1,4 @@
 import 'package:cinema_food/modules/user.dart';
-import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:cinema_food/shared/loading.dart';
 import 'package:cinema_food/shared/screen_title.dart';
@@ -16,7 +15,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
   final TapGestureRecognizer _gestureRecognizer = TapGestureRecognizer()
     ..onTap = () {
       print('PASSWORD DIMENTICATA');

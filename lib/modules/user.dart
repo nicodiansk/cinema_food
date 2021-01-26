@@ -10,7 +10,6 @@ class User {
   String name;
   String avatarUrl;
   int points;
-  Storage _storage = Storage();
   User({this.uid, this.email, this.name, this.points, this.avatarUrl});
 }
 

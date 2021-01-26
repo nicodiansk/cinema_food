@@ -1,8 +1,4 @@
 import 'dart:io';
-//import 'package:firebase/firebase.dart';
-import 'package:cinema_food/services/storage.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
 import 'package:cinema_food/modules/user.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/avatar.dart';
@@ -22,7 +18,6 @@ class UserSettings extends StatefulWidget {
 
 class _UserSettingsState extends State<UserSettings> {
   final AuthService _auth = AuthService();
-  final Storage _storage = Storage();
 
   File _image;
 
@@ -30,8 +25,6 @@ class _UserSettingsState extends State<UserSettings> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    var firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('user/profile/${user?.uid}');
     Future getImage() async {
       var image = await ImagePicker().getImage(source: ImageSource.gallery);
       setState(() {

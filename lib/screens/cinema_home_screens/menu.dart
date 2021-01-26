@@ -1,10 +1,8 @@
-import 'package:cinema_food/modules/cart_card.dart';
 import 'package:cinema_food/screens/cinema_home_screens/menu_screens/details_menu.dart';
 import 'package:cinema_food/shared/category_title.dart';
 import 'package:cinema_food/modules/food_card.dart';
 import 'package:cinema_food/shared/page_title.dart';
 import 'package:flutter/material.dart';
-import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuPage extends StatefulWidget {
@@ -26,7 +24,6 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ScreenUtil.init(context);
     return SafeArea(
       child: Scaffold(

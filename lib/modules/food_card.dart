@@ -7,8 +7,6 @@ import 'package:cinema_food/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart';
-
 Future<List<FoodCard>> fetchFoodList() async {
   List<FoodCard> foodList;
   String token;

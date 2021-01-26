@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+// ignore: must_be_immutable
 class DetailsScreen extends StatefulWidget {
   final int productId;
   final String title;
@@ -66,7 +67,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     countBag = getItemQty();
     countBag.then((value) {

@@ -1,4 +1,3 @@
-import 'package:cinema_food/modules/food.dart';
 import 'package:cinema_food/modules/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

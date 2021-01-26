@@ -13,6 +13,11 @@ const textInputDecoration = InputDecoration(
       borderSide: BorderSide(color: Colors.grey, width: 2)),
 );
 
+var cardBoxDecoration = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+    boxShadow: [BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10)]);
+
 const kSpacingUnit = 10;
 const kTextColor = Colors.black;
 const kDarkPrimaryColor = Color(0xFF212121);

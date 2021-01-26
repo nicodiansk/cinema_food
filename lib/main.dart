@@ -1,10 +1,11 @@
 import 'package:cinema_food/modules/user.dart';
+import 'package:cinema_food/screens/cinema_home_screens/cart_screen.dart';
+import 'package:cinema_food/screens/home_page_bar.dart';
 import 'package:cinema_food/screens/splash_screen.dart';
 import 'package:cinema_food/services/auth.dart';
 import 'package:cinema_food/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dcdg/dcdg.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity),*/
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
+        routes: {'/refreshcart': (context) => HomePageBar()},
       ),
     );
   }

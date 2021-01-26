@@ -1,5 +1,4 @@
 import 'package:cinema_food/modules/cart_card.dart';
-import 'package:cinema_food/modules/food.dart';
 import 'package:cinema_food/modules/ticket.dart';
 import 'package:cinema_food/shared/page_title.dart';
 import 'package:cinema_food/shared/constants.dart';
@@ -291,7 +290,6 @@ class _CartState extends State<Cart> {
                                       switchAutoValidate(_enabled);
                                     });
                                   }
-                                  // TODO: sendOrder
                                 },
                                 child: new Container(
                                     padding: EdgeInsets.all(10),
@@ -305,59 +303,6 @@ class _CartState extends State<Cart> {
                               ))));
                     }
                   }),
-              /*SizedBox(
-                  child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: cardBoxDecoration,
-                child: Material(
-                  child: new InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    splashColor: Colors.lightBlue[100],
-                    onTap: () {
-                      if (_formKey.currentState.validate()) {
-                        //form is valid, proceed further
-                        print(
-                            'valido'); //save once fields are valid, onSaved method invoked for every form fields
-
-                      } else {
-                        setState(() {
-                          switchAutoValidate(
-                              _enabled); //enable realtime validation
-                        });
-                      }
-                      // TODO: sendOrder
-                    },
-                    child: new Container(
-                      padding: EdgeInsets.all(10),
-                      child: FutureBuilder(
-                        future: futureFoodList,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          } else {
-                            List<CartCard> myList = snapshot.data;
-                            totalPrice = 0;
-                            for (var value in myList) {
-                              double currentPrice =
-                                  value.price * value.quantity;
-                              updatePrice(currentPrice, true);
-                            }
-                            return Row(
-                              children: [
-                                Text('Fai tap qui per ordinare!'),
-                                SizedBox(width: 50),
-                                Text('Totale: $totalPrice €')
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  color: Colors.transparent,
-                ),
-              ))*/
             ],
           ),
         ),
@@ -365,58 +310,3 @@ class _CartState extends State<Cart> {
     );
   }
 }
-
-/*SizedBox(
-                  child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: cardBoxDecoration,
-                child: Material(
-                  child: new InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    splashColor: Colors.lightBlue[100],
-                    onTap: () {
-                      if (_formKey.currentState.validate()) {
-                        //form is valid, proceed further
-                        print(
-                            'valido'); //save once fields are valid, onSaved method invoked for every form fields
-
-                      } else {
-                        setState(() {
-                          switchAutoValidate(
-                              _enabled); //enable realtime validation
-                        });
-                      }
-                      // TODO: sendOrder
-                    },
-                    child: new Container(
-                      padding: EdgeInsets.all(10),
-                      child: FutureBuilder(
-                        future: futureFoodList,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          } else {
-                            List<CartCard> myList = snapshot.data;
-                            totalPrice = 0;
-                            for (var value in myList) {
-                              double currentPrice =
-                                  value.price * value.quantity;
-                              updatePrice(currentPrice, true);
-                            }
-                            return Row(
-                              children: [
-                                Text('Fai tap qui per ordinare!'),
-                                SizedBox(width: 50),
-                                Text('Totale: $totalPrice €')
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  color: Colors.transparent,
-                ),
-              ))
-*/

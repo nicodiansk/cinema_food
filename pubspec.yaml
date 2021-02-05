@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   animated_theme_switcher: ^1.0.9
+  boolean_selector:
+  test_api: 0.2.19-nullsafety.6
   cloud_firestore: ^0.12.9+4
   convex_bottom_bar: ^2.6.0
   cupertino_icons: ^1.0.0
@@ -42,15 +44,22 @@ dependencies:
   provider: ^4.3.2+2
   rflutter_alert: ^1.1.0
   video_player: ^1.0.1
-  dcdg: ^2.0.1
+  #dcdg: 
   darq: ^0.4.0+1
   smart_select: ^4.3.2
   dio: ^3.0.10
+  email_validator: '^1.0.5'
+  collection: ^1.14.13
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  test:
 
+dependency_overrides:
+  collection: ^1.14.12
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.

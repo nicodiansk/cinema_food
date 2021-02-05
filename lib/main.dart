@@ -1,5 +1,4 @@
 import 'package:cinema_food/modules/user.dart';
-import 'package:cinema_food/screens/cinema_home_screens/cart_screen.dart';
 import 'package:cinema_food/screens/home_page_bar.dart';
 import 'package:cinema_food/screens/splash_screen.dart';
 import 'package:cinema_food/services/auth.dart';

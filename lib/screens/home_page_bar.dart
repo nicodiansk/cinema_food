@@ -23,7 +23,10 @@ class _HomePageBarState extends State<HomePageBar> {
         items: [
           TabItem(icon: Icons.fastfood, title: 'Menù'),
           TabItem(icon: Icons.movie, title: 'Film'),
-          TabItem(icon: Icons.person, title: 'User'),
+          TabItem(
+            icon: Icons.person,
+            title: 'User',
+          ),
           TabItem(icon: Icons.shopping_cart, title: 'Carrello'),
         ],
         initialActiveIndex: selectedPage,

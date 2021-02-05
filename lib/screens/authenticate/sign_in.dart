@@ -4,6 +4,7 @@ import 'package:cinema_food/shared/loading.dart';
 import 'package:cinema_food/shared/screen_title.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -54,12 +55,14 @@ class _SignInState extends State<SignIn> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             TextFormField(
+                              key: ValueKey('s_email'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'EMAIL',
                                   prefixIcon: Icon(Icons.email)),
-                              validator: (value) => value.isEmpty
-                                  ? 'Inserire una email valida'
-                                  : null,
+                              validator: (value) =>
+                                  EmailValidator.validate(value)
+                                      ? null
+                                      : 'Inserire una email valida',
                               onChanged: (value) {
                                 setState(() {
                                   email = value;
@@ -70,6 +73,7 @@ class _SignInState extends State<SignIn> {
                               height: 20,
                             ),
                             TextFormField(
+                              key: ValueKey('s_password'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'PASSWORD',
                                   prefixIcon: Icon(Icons.lock)),
@@ -89,7 +93,9 @@ class _SignInState extends State<SignIn> {
                             Center(
                               child: ButtonTheme(
                                 minWidth: 150,
+                                // ignore: deprecated_member_use
                                 child: RaisedButton.icon(
+                                  key: ValueKey('s_button'),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   onPressed: () async {
@@ -100,15 +106,16 @@ class _SignInState extends State<SignIn> {
                                       dynamic result =
                                           userData.signInWithEmailAndPassword(
                                               email: email, password: password);
-                                      /*dynamic result = await _auth
-                                          .signInWithEmailAndPassword(
-                                              email, password);*/
+
                                       if (result == null) {
+                                        print('arrivato');
                                         setState(() {
                                           loading = false;
                                           error =
                                               'Accesso non riuscito. Riprovare';
                                         });
+                                        Navigator.pushNamed(
+                                            context, '/refreshcart');
                                       }
                                     }
                                   },
@@ -128,7 +135,9 @@ class _SignInState extends State<SignIn> {
                             Center(
                               child: ButtonTheme(
                                 minWidth: 150,
+                                // ignore: deprecated_member_use
                                 child: RaisedButton.icon(
+                                  key: ValueKey('s_button_reg'),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   onPressed: () {

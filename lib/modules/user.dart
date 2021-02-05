@@ -33,8 +33,12 @@ class UserData {
 
   Future<void> signInWithEmailAndPassword(
       {String email, String password}) async {
-    _currentUser = await _auth.signInWithEmailAndPassword(email, password);
-    _currentUser.avatarUrl = await getDownloadUrl();
+    try {
+      _currentUser = await _auth.signInWithEmailAndPassword(email, password);
+      _currentUser.avatarUrl = await getDownloadUrl();
+    } on Exception catch (e) {
+      return null;
+    }
   }
 
   Future<void> uploadProfilePicture(File image) async {

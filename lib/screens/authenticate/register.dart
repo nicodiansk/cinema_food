@@ -49,6 +49,7 @@ class _RegisterState extends State<Register> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             TextFormField(
+                              key: ValueKey('r_name'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'NOME COMPLETO',
                                   prefixIcon: Icon(Icons.person)),
@@ -64,6 +65,7 @@ class _RegisterState extends State<Register> {
                               height: 20,
                             ),
                             TextFormField(
+                              key: ValueKey('r_email'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'EMAIL',
                                   prefixIcon: Icon(Icons.email)),
@@ -80,6 +82,7 @@ class _RegisterState extends State<Register> {
                               height: 20,
                             ),
                             TextFormField(
+                              key: ValueKey('r_password1'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'PASSWORD',
                                   prefixIcon: Icon(Icons.lock)),
@@ -97,6 +100,7 @@ class _RegisterState extends State<Register> {
                               height: 20,
                             ),
                             TextFormField(
+                              key: ValueKey('r_password2'),
                               decoration: textInputDecoration.copyWith(
                                   hintText: 'RIPETI PASSWORD',
                                   prefixIcon: Icon(Icons.lock)),
@@ -116,7 +120,9 @@ class _RegisterState extends State<Register> {
                             Center(
                               child: ButtonTheme(
                                 minWidth: 180,
+                                // ignore: deprecated_member_use
                                 child: RaisedButton.icon(
+                                  key: ValueKey('r_button'),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   onPressed: () async {
@@ -158,7 +164,9 @@ class _RegisterState extends State<Register> {
                             Center(
                               child: ButtonTheme(
                                 minWidth: 180,
+                                // ignore: deprecated_member_use
                                 child: RaisedButton.icon(
+                                  key: ValueKey('r_button_signin'),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   onPressed: () {

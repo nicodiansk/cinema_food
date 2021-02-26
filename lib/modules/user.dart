@@ -37,7 +37,8 @@ class UserData {
       _currentUser = await _auth.signInWithEmailAndPassword(email, password);
       _currentUser.avatarUrl = await getDownloadUrl();
     } on Exception catch (e) {
-      return null;
+      print('ERROREEEEE');
+      print(e);
     }
   }
 

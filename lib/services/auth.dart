@@ -52,9 +52,12 @@ class AuthService {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-
       user = result.user;
-    } catch (error) {
+    } catch (e) {
+      print('Error');
+    }
+
+    /*catch (error) {
       switch (error.code) {
         case "ERROR_INVALID_EMAIL":
           errorMessage = "Your email address appears to be malformed.";
@@ -77,12 +80,11 @@ class AuthService {
         default:
           errorMessage = "An undefined Error happened.";
       }
-    }
+    }*/
     if (errorMessage != null) {
       print('errore trovato');
       return null;
     }
-
     return _userFromFirebaseUser(user: user);
   }
 

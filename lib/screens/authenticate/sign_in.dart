@@ -114,8 +114,6 @@ class _SignInState extends State<SignIn> {
                                           error =
                                               'Accesso non riuscito. Riprovare';
                                         });
-                                        Navigator.pushNamed(
-                                            context, '/refreshcart');
                                       }
                                     }
                                   },

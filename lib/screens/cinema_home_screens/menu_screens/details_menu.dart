@@ -47,7 +47,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     var idToken = await user.getIdToken();
     token = idToken.token;
     print(token);
-    final response = await post('http://159.203.88.177/api/cart/getitemqty',
+    final response = await post('http://138.197.176.151/api/cart/getitemqty',
         headers: {'Authorization': 'Bearer $token'},
         body: {'productId': '${widget.productId}'});
 
@@ -170,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               var idToken = await user.getIdToken();
                               token = idToken.token;
                               final response = await post(
-                                  'http://159.203.88.177/api/cart/addproduct',
+                                  'http://138.197.176.151/api/cart/addproduct',
                                   headers: {'Authorization': 'Bearer $token'},
                                   body: {'productId': '${widget.productId}'});
                               if (response.statusCode == 200) {
@@ -208,7 +208,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               var idToken = await user.getIdToken();
                               token = idToken.token;
                               final response = await post(
-                                  'http://159.203.88.177/api/cart/removeproduct',
+                                  'http://138.197.176.151/api/cart/removeproduct',
                                   headers: {'Authorization': 'Bearer $token'},
                                   body: {'productId': '${widget.productId}'});
                               if (response.statusCode == 200) {

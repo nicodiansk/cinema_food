@@ -14,7 +14,7 @@ Future<List<CartCard>> fetchCartList() async {
   var idToken = await user.getIdToken();
   token = idToken.token;
   print(token);
-  final response = await http.get('http://159.203.88.177/api/cart/getcart',
+  final response = await http.get('http://138.197.176.151/api/cart/getcart',
       headers: {'Authorization': 'Bearer $token'});
   if (response.statusCode == 200) {
     print('response ' + response.body.toString());

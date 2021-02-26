@@ -48,7 +48,7 @@ class _CartState extends State<Cart> {
     token = idToken.token;
     print(token);
     final response = await http.post(
-        'http://159.203.88.177/api/cart/removeallproduct',
+        'http://138.197.176.151/api/cart/removeallproduct',
         headers: {'Authorization': 'Bearer $token'},
         body: {'productId': '$productId'});
     if (response.statusCode == 200) {
@@ -70,7 +70,7 @@ class _CartState extends State<Cart> {
     token = idToken.token;
     print(token);
     final response = await http.post(
-        'http://159.203.88.177/api/order/placeorder',
+        'http://138.197.176.151/api/order/placeorder',
         headers: {'Authorization': 'Bearer $token'},
         body: {'ticket_id': '$ticketId'});
     if (response.statusCode == 200) {
@@ -283,6 +283,9 @@ class _CartState extends State<Cart> {
                                 onTap: () {
                                   if (_formKey.currentState.validate()) {
                                     sendOrder(currentTicket.ticketId);
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text(
+                                            "Ordine inviato con successo!")));
                                     Navigator.pushNamed(
                                         context, '/refreshcart');
                                   } else {
